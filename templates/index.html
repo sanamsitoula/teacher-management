@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Teachers</h1>
+    <a href="{{ url_for('teachers.add_teacher') }}" class="btn btn-primary">+ Add Teacher</a>
+</div>
+
+{% if teachers %}
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Subject</th>
+                    <th>Phone</th>
+                    <th>Hire Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for teacher in teachers %}
+                <tr>
+                    <td>{{ teacher.id }}</td>
+                    <td>{{ teacher.name }}</td>
+                    <td>{{ teacher.email }}</td>
+                    <td><span class="badge bg-info">{{ teacher.subject }}</span></td>
+                    <td>{{ teacher.phone or '-' }}</td>
+                    <td>{{ teacher.hire_date }}</td>
+                    <td>
+                        <a href="{{ url_for('teachers.edit_teacher', id=teacher.id) }}" class="btn btn-sm btn-warning">Edit</a>
+                        <form action="{{ url_for('teachers.delete_teacher', id=teacher.id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Delete {{ teacher.name }}?');">
+                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="alert alert-info">
+        No teachers found. <a href="{{ url_for('teachers.add_teacher') }}" class="alert-link">Add the first teacher</a>.
+    </div>
+{% endif %}
+{% endblock %}
