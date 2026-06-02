@@ -1,7 +1,6 @@
 services:
   mysql:
     image: mysql:8.0
-    container_name: teacher-mysql
     restart: unless-stopped
     environment:
       MYSQL_DATABASE: teacher_db
@@ -20,7 +19,6 @@ services:
 
   app:
     build: .
-    container_name: teacher-app
     restart: unless-stopped
     ports:
       - "5001:5000"
