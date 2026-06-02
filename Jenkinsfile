@@ -33,7 +33,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sh 'sudo docker-compose -f docker-compose.yml down && sudo docker-compose -f docker-compose.yml up -d'
+                sh 'sudo docker-compose -f docker-compose.yml -p teacher-pipeline down --remove-orphans && sudo docker-compose -f docker-compose.yml -p teacher-pipeline up -d'
             }
         }
     }
