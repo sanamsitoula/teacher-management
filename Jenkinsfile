@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         DOCKER_BUILDKIT = '1'
+        PATH = "/var/jenkins_home/.local/bin:/usr/bin:${env.PATH}"
     }
 
     stages {
@@ -23,12 +24,12 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t teacher-management:latest .'
+                sh 'sudo docker build -t teacher-management:latest .'
             }
         }
         stage('Deploy') {
             steps {
-                sh 'docker compose -f docker-compose.yml down && docker compose -f docker-compose.yml up -d'
+                sh 'sudo docker compose -f docker-compose.yml down && sudo docker compose -f docker-compose.yml up -d'
             }
         }
     }

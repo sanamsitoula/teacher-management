@@ -7,11 +7,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-pip \
     python3-venv \
     docker.io \
-    docker-compose-v2 \
+    docker-cli \
+    sudo \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-RUN ln -s /usr/bin/python3 /usr/bin/python && \
-    ln -s /usr/bin/docker /usr/bin/docker
+RUN ln -s /usr/bin/python3 /usr/bin/python
+
+ENV PIP_BREAK_SYSTEM_PACKAGES=1
+ENV PATH="/var/jenkins_home/.local/bin:/usr/bin:${PATH}"
+
+RUN adduser jenkins root 2>/dev/null || true
+RUN echo "jenkins ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers 2>/dev/null || true
 
 USER jenkins
