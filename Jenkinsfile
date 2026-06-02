@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    options {
+        skipDefaultCheckout true
+    }
+
     environment {
         DOCKER_BUILDKIT = '1'
         PATH = "/var/jenkins_home/.local/bin:/usr/bin:${env.PATH}"
