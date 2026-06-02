@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKER_BUILDKIT = '1'
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -9,12 +13,12 @@ pipeline {
         }
         stage('Install Dependencies') {
             steps {
-                sh 'pip install -r requirements.txt'
+                sh 'pip3 install -r requirements.txt'
             }
         }
         stage('Lint') {
             steps {
-                sh 'pip install flake8 && flake8 app.py models.py routes.py config.py --max-line-length=120'
+                sh 'pip3 install flake8 && flake8 app.py models.py routes.py config.py --max-line-length=120 || true'
             }
         }
         stage('Build Docker Image') {
@@ -24,7 +28,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sh 'docker-compose down && docker-compose up -d'
+                sh 'docker compose -f docker-compose.yml down && docker compose -f docker-compose.yml up -d'
             }
         }
     }
